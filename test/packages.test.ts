@@ -84,7 +84,9 @@ before(async () => {
   app = await mkdtemp(join(tmpdir(), 'anymirror-packages-'));
   const workspaces = WORKSPACES.flatMap((name) => ['-w', name]);
   // --ignore-scripts: pack the build as it is, without prepack building again.
-  packed = JSON.parse(run('npm', ['pack', ...workspaces, '--ignore-scripts', '--json', '--pack-destination', app], root));
+  const json = JSON.parse(run('npm', ['pack', ...workspaces, '--ignore-scripts', '--json', '--pack-destination', app], root));
+  // npm 12 keys the packages by name; npm 11 lists them.
+  packed = Array.isArray(json) ? json : Object.values(json);
   await writeFile(join(app, 'package.json'), JSON.stringify({ name: 'app', private: true, type: 'module' }));
   run('npm', ['install', '--no-audit', '--no-fund', '--no-package-lock', ...packed.map((pkg) => join(app, pkg.filename))], app);
 });

@@ -27,10 +27,9 @@ jobs:
         with:
           node-version: 24
           registry-url: "https://registry.npmjs.org"
-      # Trusted publishing needs npm >= 11.5.1. npm 12 changes `npm pack
-      # --json` and blocks dependency install scripts, so stay on 11 until
-      # moving deliberately.
-      - run: npm install -g npm@11
+      # Trusted publishing needs npm >= 11.5.1; CI tests with npm 12. Pinned
+      # to a major: a new one changes output the checks read.
+      - run: npm install -g npm@12
       - run: npm ci
       - name: Tag must match the version line
         run: |

@@ -19,6 +19,7 @@ jobs:
         with:
           node-version: ${{ matrix.node }}
           cache: npm
+      - run: npm install -g npm@12 # Node ships npm 11; npm 12 is what we use
       - run: npm ci
       - run: npm run typecheck
       - run: npm test
@@ -47,6 +48,7 @@ jobs:
         with:
           node-version: 24
           cache: npm
+      - run: npm install -g npm@12
       - run: npm ci
       # The Rust unit-test fixtures must match what the TS generator writes.
       - run: node tools/gen-rust-vectors.ts "$RUNNER_TEMP/fixtures" && diff -r "$RUNNER_TEMP/fixtures" packer/tests/fixtures

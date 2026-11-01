@@ -35,5 +35,8 @@
     "multiformats": "^14.0.4",
     "pmtiles": "^4.4.1",
     "typescript": "^7.0.2"
+  },
+  "allowScripts": {
+    "esbuild": false
   }
 }
